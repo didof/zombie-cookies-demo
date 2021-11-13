@@ -21,6 +21,10 @@
       #zombie {
         cursor: pointer;
       }
+
+      div {
+        width: 80vw;
+      }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -98,12 +102,20 @@
 
       function login() {
         const inputDOMElement = document.getElementById('input')
-        fetch(`login?user=${inputDOMElement.value}`)
-          .then(res => res.text())
-          .then(res => {
-            alert(`Server says:\n${res}`)
-            toggleSections()
-          })
+        if(inputDOMElement) {
+          const { value } = inputDOMElement
+          if(!value.length) {
+            alert('Please, provide at least 1 character.')
+            return
+          }
+
+          fetch(`login?user=${inputDOMElement.value}`)
+            .then(res => res.text())
+            .then(res => {
+              alert(`Server says:\n${res}`)
+              toggleSections()
+            })
+        }
       }
     </script>
     <noscript>This Demo needs JavaScript.</noscript>
