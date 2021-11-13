@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zombie Cookie (2/2)</title>
+    <style>
+      body {
+        background: black;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+
+        font-family: 'Press Start 2P', cursive;
+        color: #20c20e;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1>Zombie Cookies - The Demo (2/2)</h1>
+
+    <div id="auth">
+      <p>Alive again, back from the dead: <b id="username"></b>.</p>
+      <hr />
+    </div>
+    <div id="guest">
+      <label for="input">Name:</label>
+      <input type="text" id="input" />
+      <button onclick="login()">Zombie!</button>
+
+      <hr />
+      <div>
+        <b>DISCLAIMER!</b>
+
+        <p>Now, things get bad.</p>
+      </div>
+    </div>
+
+    <script>
+      const authDOM = document.getElementById('auth')
+      const guestDOM = document.getElementById('guest')
+
+      function toggleSections() {
+        if (!document.cookie) {
+          guestDOM.style.display = 'block'
+          authDOM.style.display = 'none'
+        } else {
+          guestDOM.style.display = 'none'
+          authDOM.style.display = 'block'
+
+          const username = document.cookie.split('=')[1]
+          document.getElementById('username').textContent = username
+        }
+      }
+      toggleSections()
+
+      function login() {
+        const inputDOMElement = document.getElementById('input')
+        fetch(`zombielogin?user=${inputDOMElement.value}`)
+          .then(res => res.text())
+          .then(res => {
+            alert(`Server says:\n${res}`)
+            toggleSections()
+          })
+      }
+    </script>
+  </body>
+</html>

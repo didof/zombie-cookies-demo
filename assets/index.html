@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zombie Cookies (1/2)</title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+
+        font-family: 'Poiret One', cursive;
+        font-family: 'Ubuntu Mono', monospace;
+      }
+
+      #zombie {
+        cursor: pointer;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Ubuntu+Mono:ital@1&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h1>Zombie Cookies - The Demo (1/2)</h1>
+
+    <div id="auth">
+      <p>The man, the myth, <b id="username"></b>.</p>
+      <hr />
+
+      <p>Open <i>Developer Tools</i>, go in the <i>Application</i> tab.</p>
+      <p>Under <i>Storage</i>, you'll find <b>Cookies</b>.</p>
+      <p>
+        Associated with this domain [<i><span id="origin"></span></i>] you can
+        find the cookie named <b>user</b>.
+      </p>
+      <p>
+        The server setted it in response to login. The client script looks for
+        it and, if found, uses it to recognize you.
+      </p>
+      <hr />
+      <p>This is how cookies are supposed to work.</p>
+      <p>
+        Just delete it, than refresh the page: everything will be back to
+        normal.
+      </p>
+
+      <center id="zombie">
+        <b>Cool, now show me the zombie cookie!</b>
+      </center>
+    </div>
+    <div id="guest">
+      <label for="input">Name:</label>
+      <input type="text" id="input" />
+      <button onclick="login()">Login</button>
+
+      <p>The server will use the input you provide as value for the cookie.</p>
+    </div>
+
+    <script>
+      const authDOM = document.getElementById('auth')
+      const guestDOM = document.getElementById('guest')
+
+      function toggleSections() {
+        if (!document.cookie) {
+          guestDOM.style.display = 'block'
+          authDOM.style.display = 'none'
+        } else {
+          guestDOM.style.display = 'none'
+          authDOM.style.display = 'block'
+
+          const username = document.cookie.split('=')[1]
+          document.getElementById('username').textContent = username
+          document.getElementById('origin').textContent = window.origin
+          document.getElementById('zombie').onclick = function () {
+            fetch(`${document.location.href}logout`).then(res => {
+              if (res.status === 200) {
+                alert('Cookie automatically deleted.')
+                window.open(window.origin + '/zombie', 'zombie')
+              } else {
+                alert(
+                  'Something went wrong. When playing part 2, ensure no cookies are already registered, please.'
+                )
+              }
+            })
+          }
+        }
+      }
+      toggleSections()
+
+      function login() {
+        const inputDOMElement = document.getElementById('input')
+        fetch(`login?user=${inputDOMElement.value}`)
+          .then(res => res.text())
+          .then(res => {
+            alert(`Server says:\n${res}`)
+            toggleSections()
+          })
+      }
+    </script>
+    <noscript>This Demo needs JavaScript.</noscript>
+  </body>
+</html>
