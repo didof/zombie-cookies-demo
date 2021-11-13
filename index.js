@@ -2,7 +2,7 @@ const path = require('path')
 const express = require('express')
 
 const app = express()
-app.enable('etag');
+app.enable('etag')
 
 const KEY = 'user'
 const zombies = new Map()
@@ -13,7 +13,7 @@ app.get('/', (_, res) => {
 
 app.get('/login', (req, res) => {
   const user = req.query.user
-  res.setHeader('set-cookie', [`${KEY}=${user}`])
+  res.setHeader('set-cookie', `${KEY}=${user}`)
 
   res.status(201).send(`user ${user} has been created.`)
 })
@@ -37,7 +37,7 @@ app.get('/zombie', (req, res) => {
     console.info(`/zombie, New zombie: [${etag}:${user}]`)
   } else {
     const user = zombies.get(etag)
-    if (user) res.setHeader('set-cookie', [`${KEY}=${user}`])
+    if (user) res.setHeader('set-cookie', `${KEY}=${user}`)
   }
 
   res.sendFile(path.join(__dirname, 'assets', 'zombie.html'))
