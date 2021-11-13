@@ -24,8 +24,6 @@ app.get('/logout', (_, res) => {
 })
 
 app.get('/zombie', (req, res) => {
-  console.log('[ROUTE] zombie')
-
   const etag = req.headers['if-none-match']
 
   if (req.headers.cookie) {
@@ -44,8 +42,6 @@ app.get('/zombie', (req, res) => {
 })
 
 app.get('/zombielogin', (req, res) => {
-  console.log('[ROUTE] zombielogin')
-
   const user = req.query.user
   res.setHeader('set-cookie', [`${KEY}=${user}`])
 

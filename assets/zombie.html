@@ -16,8 +16,14 @@
         overflow: hidden;
 
         font-family: 'Press Start 2P', cursive;
+        font-size: 0.6rem;
         color: #20c20e;
-        line-height: 2rem;
+        line-height: 1.4rem;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
       }
 
       div {
@@ -32,7 +38,8 @@
     />
   </head>
   <body>
-    <h1>Zombie Cookies - The Demo (2/2)</h1>
+    <h1>Zombie Cookies</h1>
+    <h2>The Demo (2/2)</h2>
 
     <div id="auth">
       <p>Alive again, back from the dead: <b id="username"></b>.</p>
@@ -40,26 +47,25 @@
 
       <p>
         Now, things get bad. Try to delete it, go on. Done? Now refresh the
-        page.
-      </p>
-      <p><b>You cannot escape it. The server now knows who you are.</b></p>
-      <p>
-        Of course, here nothing bad is happening. But if this were a malicious
-        web site... well, surely it wouldn't display the felonry to display!
+        page. You cannot escape it. The server now knows who you are. Of course,
+        here nothing bad is happening. But if this were a malicious web site...
+        well, surely it wouldn't display the felonry to display!
       </p>
       <p>
         It could show a <i>Logout</i> button. You press it, the UI changes
         <b>BUT</b> the zombie cookie persists. And potentially any action you do
         on the website will be recorded and associated to you user, even if you
-        politely asked to un-authenticate yourself.
+        politely asked to un-authenticate yourself. Bad, really bad. And
+        illegal, too.
       </p>
-      <p>Bad, really bad. And illegal, too.</p>
       <u>But now you know.</u>
     </div>
     <div id="guest">
       <label for="input">Name:</label>
       <input type="text" id="input" />
-      <button onclick="login()">Zombie!</button>
+      <center>
+        <button onclick="login()">Zombie!</button>
+      </center>
 
       <hr />
       <p>It could seem a login like the former. But it isn't.</p>
@@ -85,12 +91,19 @@
 
       function login() {
         const inputDOMElement = document.getElementById('input')
-        fetch(`zombielogin?user=${inputDOMElement.value}`)
-          .then(res => res.text())
-          .then(res => {
-            alert(`Server says:\n${res}`)
-            toggleSections()
-          })
+        if (inputDOMElement) {
+          const { value } = inputDOMElement
+          if (value.length > 0 && value.length < 10) {
+            fetch(`zombielogin?user=${inputDOMElement.value}`)
+              .then(res => res.text())
+              .then(res => {
+                alert(`Server says:\n${res}`)
+                toggleSections()
+              })
+          } else {
+            alert('Name must be between 0 and 10 characters.')
+          }
+        }
       }
     </script>
   </body>

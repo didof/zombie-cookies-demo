@@ -16,6 +16,8 @@
 
         font-family: 'Poiret One', cursive;
         font-family: 'Ubuntu Mono', monospace;
+        text-align: justify;
+        line-height: 1.2rem;
       }
 
       #zombie {
@@ -34,26 +36,31 @@
     />
   </head>
   <body>
-    <h1>Zombie Cookies - The Demo (1/2)</h1>
+    <h1>Zombie Cookies</h1>
+    <h2>The Demo (1/2)</h2>
 
     <div id="auth">
-      <p>The man, the myth, <b id="username"></b>.</p>
+      <p>
+        The man, the myth, <b id="username"></b>. As you see, now the website
+        knows who you are.
+      </p>
       <hr />
 
-      <p>Open <i>Developer Tools</i>, go in the <i>Application</i> tab.</p>
-      <p>Under <i>Storage</i>, you'll find <b>Cookies</b>.</p>
+      <p>
+        Open <i>Developer Tools</i>, go in the <i>Application</i> tab. Under
+        <i>Storage</i>, you'll find <b>Cookies</b>.
+      </p>
       <p>
         Associated with this domain [<i><span id="origin"></span></i>] you can
-        find the cookie named <b>user</b>.
-      </p>
-      <p>
-        The server setted it in response to login. The client script looks for
-        it and, if found, uses it to recognize you.
+        find the cookie named <b>user</b>. The server setted it in response to
+        login. The client script looks for it and, if found, uses it to
+        recognize you. This is how cookies are supposed to work.
       </p>
       <hr />
-      <p>This is how cookies are supposed to work.</p>
       <p>
-        Just delete it, than refresh the page: everything will be back to
+        When you ask to <b>logout</b> you are asking the server to remove that
+        cookie. You can <i>manually logout</i>, which meanse deleting the cookie
+        via Developer Tools. Then, refresh the page: everything will be back to
         normal.
       </p>
 
@@ -63,10 +70,23 @@
     </div>
     <div id="guest">
       <label for="input">Name:</label>
-      <input type="text" id="input" />
-      <button onclick="login()">Login</button>
+      <input type="text" id="input" min="0" max="5" />
+      <center>
+        <button onclick="login()">Login</button>
+      </center>
 
-      <p>The server will use the input you provide as value for the cookie.</p>
+      <p>
+        Typically, when you give the server your name, it uses it to
+        register/authenticate you. Then set the <code>Set-Cookie</code> header
+        in the <b>response</b> in which it keeps track of the fact that you are
+        authenticated.
+      </p>
+      <p>
+        Cookies are associated with each request. In this way, clients and
+        servers can harmoniously track user interactions.
+      </p>
+
+      <p></p>
     </div>
 
     <script>
@@ -102,19 +122,18 @@
 
       function login() {
         const inputDOMElement = document.getElementById('input')
-        if(inputDOMElement) {
+        if (inputDOMElement) {
           const { value } = inputDOMElement
-          if(!value.length) {
-            alert('Please, provide at least 1 character.')
-            return
+          if (value.length > 0 && value.length < 10) {
+            fetch(`login?user=${inputDOMElement.value}`)
+              .then(res => res.text())
+              .then(res => {
+                alert(`Server says:\n${res}`)
+                toggleSections()
+              })
+          } else {
+            alert('Name must be between 0 and 10 characters.')
           }
-
-          fetch(`login?user=${inputDOMElement.value}`)
-            .then(res => res.text())
-            .then(res => {
-              alert(`Server says:\n${res}`)
-              toggleSections()
-            })
         }
       }
     </script>
