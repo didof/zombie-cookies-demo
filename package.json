@@ -6,10 +6,13 @@
   "scripts": {
     "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["web", "security", "cookies"],
+  "author": "didof",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "engines": {
+    "node": "15.5.0"
   }
 }
