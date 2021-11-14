@@ -29,6 +29,10 @@
       div {
         width: 80vw;
       }
+
+      span {
+        text-align: right;
+      }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -41,9 +45,13 @@
     <h1>Zombie Cookies</h1>
     <h2>The Demo (2/2)</h2>
 
+    <span title="https://github.com/didof/zombie-cookies-demo"
+      ><a href="https://github.com/didof/zombie-cookies-demo">Repo</a></span
+    >
+
     <div id="auth">
       <p>Alive again, back from the dead: <b id="username"></b>.</p>
-      <hr />
+      <p>------------------------------------------------------------</p>
 
       <p>
         Now, things get bad. Try to delete it, go on. Done? Now refresh the
@@ -67,8 +75,20 @@
         <button onclick="login()">Zombie!</button>
       </center>
 
-      <hr />
-      <p>It could seem a login like the former. But it isn't.</p>
+      <p>***</p>
+      <p>
+        Zombie cookies take advantage of
+        <a href="https://github.com/didof/zombie-cookies-demo#what-is-e-tag"
+          >ETags</a
+        >.
+      </p>
+      <p>
+        In the login call, in addition to performing its normal functions, the
+        server saves the provided name associated with the etag. When the page
+        is requested, the server checks in the cookies of the request: If it
+        doesn't find the user cookie, it uses the etag as a key in your map to
+        find user. <u>And it set again the cookie.</u>
+      </p>
     </div>
 
     <script>

@@ -31,8 +31,6 @@ app.get('/zombie', (req, res) => {
 
     const user = req.headers.cookie.split('=')[1]
     zombies.set(etag, user)
-
-    console.info(`/zombie, New zombie: [${etag}:${user}]`)
   } else {
     const user = zombies.get(etag)
     if (user) res.setHeader('set-cookie', `${KEY}=${user}`)
