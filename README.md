@@ -8,6 +8,11 @@ _Zombie cookies_ aren't some fancy stuff you add to your site - they're an enemy
 
 ---
 
+## Demo
+
+I put on a small demo with the aim of letting you feel the immortality of these zombie cookies.
+You can play it here: [demo](https://zombie-cookie-demo.herokuapp.com/)
+
 ## Learn
 
 ### What is E-Tag
@@ -32,11 +37,11 @@ But, in case it hasn't changed, the server responds with the status **304, Not M
 
 ### Use E-Tag to do Necromancy
 
-Gli **zombie cookies** sfruttano gli ETag. Prendono questo nome dal fatto che anche cancellandoli manualmente al refresh della pagina _tornano in vita_.
+**Zombie cookies** take advantage of **ETags**. They get their name from the fact that even if you delete them manually when the page is refreshed, they _come back to life_.
 
-Quando atterri sulla route `/zombie`, il server ha associato un `ETag` alla risorsa, alla pagina _HTML_.
+When you land on the `/zombie` route, the server has an `ETag` associated with the resource, on the _HTML_ page.
 
-Il rituale di necromanzia ha inizio con il login:
+The necromancy ritual begins with the login:
 
 ```js
 app.get('/zombielogin', (req, res) => {
@@ -50,11 +55,11 @@ app.get('/zombielogin', (req, res) => {
 })
 ```
 
-Oltre a svolgere le normali funzioni di login (line 1, 2, 7), l'`etag` è estrapolato dall'header **If-None-Match**. È stato il client ad averlo estrapolato dall'`ETag` (settato dal server) ed ad inserirlo qui.
+In addition to performing the normal login functions (line 1, 2, 7), the `etag` is extrapolated from the **If-None-Match** header. It was the client who extracted it from the `ETag` (set by the server) and put it here.
 
-Lo usa come chiave in una mappa nella quale tiene traccia dell'utente (line 5, 6).
+It uses it as a key in a map in which he keeps track of the user (line 5, 6).
 
-In questo modo, quando l'utente chiede nuovamente `zombie.html`:
+Like this, when the user asks `zombie.html` again:
 
 ```js
 const zombies = new Map()
@@ -75,9 +80,9 @@ app.get('/zombie', (req, res) => {
 })
 ```
 
-Se la richiesta porta con sé un cookie, ne estrapola il contenuto e lo salva nella mappa usando l'`etag` come chiave.
+If the request carries a cookie with it, it extracts its content and saves it in the map using the `etag` as a key.
 
-Se invece non trova il cookie, magari perché l'utente l'ha cancellato manualmente, utilizza l'`etag` per accedere al valore nella mappa. Con questo _riporta in vita_ il cookie.
+If it does not find the cookie, perhaps because the user has manually deleted it, use the `etag` to access the value in the map. With this he _bears_ the cookie back.
 
 ```js
 const user = zombies.get(etag)
