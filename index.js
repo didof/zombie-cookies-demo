@@ -28,7 +28,6 @@ app.get('/zombie', (req, res) => {
 
   if (req.headers.cookie) {
     // take for granted only `user` cookie exists
-
     const user = req.headers.cookie.split('=')[1]
     zombies.set(etag, user)
   } else {
